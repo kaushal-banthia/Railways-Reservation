@@ -9,21 +9,31 @@ using namespace std;
 
 class Station
 {
-    string name_; // Name of the Station
+    // Name of the Station
+    const string name_;
+    Station& operator=(const Station& s);
 
     public:
-    Station(string name); // Constructor
-    Station(const Station& s); // Copy Constructor
-    Station& operator=(const Station& s); // Copy Assignment Operator
+    // Constructor
+    Station(const string name);
+
+    // Copy Constructor
+    Station(const Station& s);
+
+    // Destructor
+    ~Station();
     
-    inline string GetName() const // Getter function for getting the Name of the Station
+    // Getter function for getting the Name of the Station
+    inline string GetName() const
     {
         return name_;
     }
 
-    int GetDistance(const Station& s);
+    // Function for finding out the distance between two Stations
+    int GetDistance(const Station& s) const;
 
-    friend ostream& operator<<(ostream &output, Station s); // Output Streaming Operator
+    // Output Streaming Operator
+    friend ostream& operator<<(ostream &output, Station s);
 };
 
 #endif

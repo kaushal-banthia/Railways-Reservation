@@ -1,22 +1,31 @@
 # include "Station.h"
 # include "Railways.h"
 
-Station::Station(string name): name_(name) {} // Constructor
-Station::Station(const Station& s):name_(s.name_) {} // Copy Constructor
-Station& Station::operator=(const Station& s) // Copy Assignment Operator
+// Constructor
+Station::Station(const string name): name_(name) {}
+
+// Copy Constructor
+Station::Station(const Station& s):name_(s.name_) {}
+
+// Destructor
+Station::~Station() {} 
+
+// Copy Assignment Operator
+Station& Station::operator=(const Station& s)
 {
-    name_ = s.name_;
     return *this;
 }
 
-int Station::GetDistance(const Station& s)
+// Function for finding out the distance between two Stations
+int Station::GetDistance(const Station& s) const
 {
     Station other_ = s;
     const Railways& IndianRailways = Railways::Type();
-    return IndianRailways.GetDistance(*this, other_);
+    return IndianRailways.GetDistance(*this, other_); // Gets the distance from IndianRailways
 }
 
-ostream& operator<<(ostream &output, Station s) // Output Streaming Operator
+// Output Streaming Operator
+ostream& operator<<(ostream &output, Station s)
 {
     output<<s.name_<<endl;
     return output;

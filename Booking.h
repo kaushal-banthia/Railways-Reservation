@@ -4,37 +4,68 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "Station.h"
+#include "Date.h"
+#include "BookingClasses.h"
 
 using namespace std;
 
-class BookingClasses;
-class Station;
-class Date;
 class Passenger;
 
+// Base Class Booking
 class Booking
 {
+    // Static constants that are used for Fare calculation
     static const float sBaseFarePerKM, sACSurcharge, sLuxuryTaxPercent;
-    static int sBookingPNRSerial;
-    vector<int> heelo;
-    
-    Station &fromStation_, &toStation_;
-    Date &date_;
-    BookingClasses &bookingClass_;
-    Passenger *passenger_;
-    float fare_;
-    int PNR_;
-    bool bookingStatus_ = true;
-    string bookingMessage_ = "BOOKING SUCCEEDED";
 
+    // Static variable that stores the next PNR to be allotted
+    static int sBookingPNRSerial;
+    
+    // Source and Destination
+    const Station &fromStation_, &toStation_;
+
+    // Date of travel
+    const Date &date_;
+
+    // Booking Class of travel
+    const BookingClasses &bookingClass_;
+
+    // Passenger who is travelling
+    Passenger *passenger_;
+    
+    // Fare for the travel
+    float fare_;
+
+    // PNR of the travel
+    int PNR_;
+
+    // Booking Status of travel
+    bool bookingStatus_ = true;
+
+    // Message displayed on the for the status of the booking
+    string bookingMessage_ = "BOOKING SUCCEEDED";
+    
+    //Copy Assignment Operator
+    Booking& operator=(const Booking &b);
+    
     public:
+    // Static vector that stores the previous bookings
     static vector<Booking*> sBookings;
-    Booking(Station fromStation, Station toStation, Date date, const BookingClasses& bookingClass, Passenger* passenger = NULL); // Constructor
-    Booking(const Booking& b); // Copy Constructor
-    Booking& operator=(const Booking &b); //Copy Assignment Operator
-    virtual int ComputeFare(); /*Should it be virtual?*/
-    ~Booking(); // Destructor
-    friend ostream& operator<<(ostream &output, const Booking &b); // Output Streaming Operator
+
+    // Constructor
+    Booking(const Station fromStation, const Station toStation, const Date date, const BookingClasses& bookingClass, Passenger* passenger = NULL);
+    
+    // Copy Constructor
+    Booking(const Booking& b);
+
+    // Polymorphic function for computing the Fare of the travel
+    virtual int ComputeFare();
+
+    // Destructor for Booking
+    virtual ~Booking();
+
+    // Output Streaming Operator
+    friend ostream& operator<<(ostream &output, const Booking &b);
 };
 
 #endif

@@ -1,7 +1,10 @@
 #include "Railways.h"
 #include "Station.h"
 
-vector<string> Railways::sStations = {"Mumbai", "Delhi", "Bangalore", "Kolkata", "Chennai"};
+// Vector of Stations
+const vector<string> Railways::sStations = {"Mumbai", "Delhi", "Bangalore", "Kolkata", "Chennai"};
+
+// Map that stores the mutual distance between 2 stations
 map<vector<string>, int> Railways::sDistStations = {{{"Delhi", "Mumbai"}, 1447},
 {{"Bangalore", "Mumbai"}, 981},
 {{"Kolkata", "Mumbai"}, 2014},
@@ -13,7 +16,11 @@ map<vector<string>, int> Railways::sDistStations = {{{"Delhi", "Mumbai"}, 1447},
 {{"Bangalore", "Chennai"}, 350},
 {{"Chennai", "Kolkata"}, 1659}};
 
-int Railways::GetDistance(Station& one, Station& two) const
+// Constructor
+Railways::Railways() {}
+
+// Function to get distance between two cities
+int Railways::GetDistance(const Station& one, const Station& two) const
 {
     string firstStationName = one.GetName()<two.GetName() ? one.GetName() : two.GetName();
     string secondStationName = one.GetName()>two.GetName() ? one.GetName() : two.GetName();;
@@ -21,14 +28,15 @@ int Railways::GetDistance(Station& one, Station& two) const
     return sDistStations[{firstStationName, secondStationName}];
 }
 
-const Railways& Railways::Type() // Implementation for a singleton class
+// Implementation for a singleton class
+const Railways& Railways::Type()
 {
     static const Railways sRailwaysObj;
     return sRailwaysObj;
 }
 
-
-ostream& operator<<(ostream &output, Railways r) // Output Streaming Operator
+// Output Streaming Operator
+ostream& operator<<(ostream &output, Railways r)
 {
     output<<"List of Stations:"<<endl;
     for (auto i = r.sStations.begin(); i != r.sStations.end(); i++)

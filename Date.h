@@ -9,16 +9,30 @@ using namespace std;
 
 class Date
 {
+    // Vector to store the month names
     static const vector<string> sMonthName;
-    int d_, m_, y_;
-    string date_;
+
+    // Integers to store the day, month and year respectively
+    const int d_, m_, y_;
+    
+    // Store the formatted date
+    const string date_;
+
+    // Copy Assignment Operator
+    Date& operator=(const Date& d);
 
     public:
-    Date(int d, int m, int y); // Constructor
-    Date(const Date& d); // Copy Constructor
-    Date& operator=(const Date& d); // Copy Assignment Operator
+    // Constructor
+    Date(const int d, const int m, const int y);
 
-    friend ostream& operator<<(ostream &output, Date d); // Output Streaming Operator
+    // Copy Constructor
+    Date(const Date& d);
+
+    // Destructor
+    ~Date();
+
+    // Output Streaming Operator
+    friend ostream& operator<<(ostream &output, Date d);
 };
 
 #endif

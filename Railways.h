@@ -11,16 +11,24 @@ using namespace std;
 
 class Railways
 {
-    static vector<string> sStations;
+    // Vector of all the Stations
+    static const vector<string> sStations;
+
+    // Map that stores the mutual distance between 2 stations
     static map<vector<string>, int> sDistStations;
-    Railways(){}
+
+    // Constructor
+    Railways();
 
     public:
-    static const Railways& Type(); // Implementation for a singleton class
+    // Implementation for a singleton class
+    static const Railways& Type();
 
-    int GetDistance(Station& one, Station& two) const; // Function to get distance between two cities
+    // Function to get distance between two cities
+    int GetDistance(const Station& one, const Station& two) const;
     
-    friend ostream& operator<<(ostream &output, Railways r); // Output Streaming Operator
+    // Output Streaming Operator
+    friend ostream& operator<<(ostream &output, Railways r);
 };
 
 #endif

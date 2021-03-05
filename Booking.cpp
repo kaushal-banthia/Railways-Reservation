@@ -5,12 +5,17 @@
 #include "Passenger.h"
 #include <cmath>
 
+// Static constants that are used for Fare calculation
 const float Booking::sBaseFarePerKM = 0.5, Booking::sACSurcharge = 50.0, Booking::sLuxuryTaxPercent = 0.25;
+
+// Static vector that stores the previous bookings
 vector<Booking*> Booking::sBookings = {};
+
+// Static variable that stores the next PNR to be allotted
 int Booking::sBookingPNRSerial = 0;
 
 // Constructor
-Booking::Booking(Station fromStation, Station toStation, Date date, const BookingClasses& bookingClass, Passenger* passenger):
+Booking::Booking(const Station fromStation, const Station toStation, const Date date, const BookingClasses& bookingClass, Passenger* passenger):
     fromStation_(fromStation), toStation_(toStation), date_(date), bookingClass_(const_cast<BookingClasses&>(bookingClass)), passenger_(passenger)
 {
     fare_ = ComputeFare();
@@ -23,21 +28,15 @@ Booking::Booking(const Booking& b):
 
 // Copy Assignment Operator
 Booking& Booking::operator=(const Booking& b)
-{
-    fromStation_ = b.fromStation_;
-    toStation_ = b.toStation_;
-    date_ = b.date_;
-    bookingClass_ = b.bookingClass_;
-    passenger_ = b.passenger_;
-    fare_ = ComputeFare();
-    
+{  
     return *this;
 }
 
-// Destructor
+// Destructor for Booking
 Booking::~Booking()
 {}
 
+// Output Streaming Operator
 ostream& operator<<(ostream &output, const Booking &b)
 {
     output<<endl;
@@ -51,11 +50,12 @@ ostream& operator<<(ostream &output, const Booking &b)
     output<<" : Comfort: "<<(b.bookingClass_.IsAC()?"AC":"Non-AC")<<endl;
     output<<" : Bunks: "<<b.bookingClass_.GetNumberOfTiers()<<endl;
     output<<" : Luxury: "<<(b.bookingClass_.IsLuxury()?"Yes":"No")<<endl;
-    output<<"Fare ="<<b.fare_<<endl;
+    output<<"Fare = "<<b.fare_<<endl;
     
     return output;
 }
 
+// Polymorphic function for computing the Fare of the travel
 int Booking::ComputeFare()
 {
     float baseFare_ = sBaseFarePerKM * static_cast<float>(fromStation_.GetDistance(toStation_));
